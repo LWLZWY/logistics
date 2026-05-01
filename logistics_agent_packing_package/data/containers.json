@@ -1,0 +1,36 @@
+[
+  {
+    "container_id": "C001",
+    "lading_number": "LAD-001",
+    "container_type": "40HQ",
+    "shipping_code": "COSCO",
+    "shipment_code": "CNSHA",
+    "destination_code": "USLAX",
+    "max_volume_cbm": 68.0,
+    "max_weight_kg": 26000,
+    "nation_code": "US",
+    "allowed_outlets": ["SZ", "GZ"],
+    "is_dg_cabinet": false,
+    "allowed_fba_warehouses": ["LAX9", "ONT8"],
+    "allowed_delivery_modes": ["FBA", "TRUCK"],
+    "product_codes": ["GENERAL"],
+    "max_receivers": 4
+  },
+  {
+    "container_id": "C002",
+    "lading_number": "LAD-002",
+    "container_type": "20GP-DG",
+    "shipping_code": "ONE",
+    "shipment_code": "CNSHA",
+    "destination_code": "USLAX",
+    "max_volume_cbm": 28.0,
+    "max_weight_kg": 21000,
+    "nation_code": "US",
+    "allowed_outlets": ["SZ"],
+    "is_dg_cabinet": true,
+    "allowed_fba_warehouses": [],
+    "allowed_delivery_modes": ["TRUCK"],
+    "product_codes": ["BATTERY", "GENERAL"],
+    "max_receivers": 3
+  }
+]

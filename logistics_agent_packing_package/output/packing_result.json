@@ -1,0 +1,184 @@
+{
+  "total_cost": 19687.94,
+  "uncovered_orders": [
+    "O004"
+  ],
+  "diagnostics": {
+    "selected_modes": [
+      {
+        "mode_id": "mode_3fc25273",
+        "container_id": "C001",
+        "order_ids": [
+          "O001",
+          "O002",
+          "O003"
+        ],
+        "total_volume_cbm": 9.67,
+        "total_weight_kg": 1340.0,
+        "receivers": [
+          "Amazon-LAX9",
+          "Retailer-A"
+        ],
+        "fee_breakdown": {
+          "ocean_fee": 3500.0,
+          "customs_fee": 200.0,
+          "clearance_fee": 240.0,
+          "pickup_fee": 160.0,
+          "devanning_fee": 330.0,
+          "last_mile_fee": 531.93,
+          "dg_surcharge": 0.0,
+          "out_of_area_surcharge": 0.0,
+          "total": 4961.93
+        },
+        "soft_violations": [],
+        "score": 4819.73
+      },
+      {
+        "mode_id": "mode_22a10e5c",
+        "container_id": "C002",
+        "order_ids": [
+          "O005",
+          "O006"
+        ],
+        "total_volume_cbm": 5.38,
+        "total_weight_kg": 684.0,
+        "receivers": [
+          "DG-Customer",
+          "Retailer-C"
+        ],
+        "fee_breakdown": {
+          "ocean_fee": 3500.0,
+          "customs_fee": 200.0,
+          "clearance_fee": 240.0,
+          "pickup_fee": 160.0,
+          "devanning_fee": 330.0,
+          "last_mile_fee": 296.01,
+          "dg_surcharge": 0.0,
+          "out_of_area_surcharge": 0.0,
+          "total": 4726.01
+        },
+        "soft_violations": [
+          {
+            "level": "SOFT",
+            "code": "DG_MIX_WITH_NORMAL",
+            "message": "危险品柜混装普货，需确认业务是否允许。",
+            "order_ids": [
+              "O006"
+            ],
+            "impact_weight": 2.0
+          }
+        ],
+        "score": 5533.87
+      }
+    ],
+    "coverage_gap_report": {
+      "uncovered_count": 1,
+      "uncovered_order_ids": [
+        "O004"
+      ],
+      "uncovered_detail": [
+        {
+          "order_id": "O004",
+          "order_number": "SO-1004",
+          "volume_cbm": 3.43,
+          "weight_kg": 440.0,
+          "is_dg": false,
+          "delivery_mode": "TRUCK",
+          "destination_warehouse": "LV-WH",
+          "impact_weight": 10000
+        }
+      ],
+      "estimated_penalty": 10000.0
+    },
+    "conflict_hotspots": [
+      {
+        "conflict_type": "DG_MIX_WITH_NORMAL",
+        "frequency": 3,
+        "affected_order_count": 2,
+        "severity": "MEDIUM",
+        "sample_order_ids": [
+          "O003",
+          "O006"
+        ]
+      }
+    ],
+    "high_cost_modes": [
+      {
+        "mode_id": "mode_3fc25273",
+        "container_id": "C001",
+        "total_fee": 4961.93,
+        "fee_breakdown": {
+          "ocean_fee": 3500.0,
+          "customs_fee": 200.0,
+          "clearance_fee": 240.0,
+          "pickup_fee": 160.0,
+          "devanning_fee": 330.0,
+          "last_mile_fee": 531.93,
+          "dg_surcharge": 0.0,
+          "out_of_area_surcharge": 0.0,
+          "total": 4961.93
+        },
+        "optimization_potential": [
+          "费用结构较均衡，优化重点可转向提升装载率。"
+        ]
+      }
+    ],
+    "feedback_regenerate": [
+      {
+        "target": "CandidateGenerationAgent",
+        "action": "regenerate_modes_for_uncovered_orders",
+        "reason": "存在未覆盖订单，需要优先生成补舱或单独成柜模式。",
+        "params": {
+          "order_ids": [
+            "O004"
+          ],
+          "priority": "HIGH"
+        }
+      },
+      {
+        "target": "ConstraintAgent",
+        "action": "route_by_conflict_type",
+        "reason": "冲突类型 DG_MIX_WITH_NORMAL 出现频率较高。",
+        "params": {
+          "conflict_type": "DG_MIX_WITH_NORMAL",
+          "severity": "MEDIUM",
+          "affected_order_count": 2
+        }
+      },
+      {
+        "target": "FeeVerifierAgent",
+        "action": "search_lower_cost_quote_or_recluster_orders",
+        "reason": "存在高成本模式，需要检查报价匹配或订单聚类方式。",
+        "params": {
+          "mode_id": "mode_3fc25273",
+          "container_id": "C001",
+          "total_fee": 4961.93
+        }
+      }
+    ]
+  },
+  "token_plan": {
+    "total_token_proxy": 3229,
+    "by_agent": {
+      "OrderParserAgent": 541,
+      "ConstraintAgent": 2192,
+      "FeeVerifierAgent": 470,
+      "CandidateGenerationAgent": 0,
+      "MasterSolverAgent": 9,
+      "DiagnosisAgent": 17
+    },
+    "control_strategy": [
+      "先用 fast_filter 过滤容量、重量、国家等明显不可行组合。",
+      "仅对通过轻量规则的候选模式调用完整约束校验与费用核验。",
+      "诊断阶段输出结构化反馈，避免长文本反复推理。",
+      "生产环境可加入缓存：相同订单集合、柜型、报价规则的费用结果直接复用。"
+    ]
+  },
+  "agent_logs": [
+    "[OrderParserAgent] 解析订单 6 单。",
+    "[CandidateGenerationAgent] 柜子 C001 生成候选模式 8 个。",
+    "[CandidateGenerationAgent] 柜子 C002 生成候选模式 7 个。",
+    "[CandidateGenerationAgent] 共生成候选模式 15 个。",
+    "[MasterSolverAgent] 全局求解完成：选择模式 2 个，未覆盖订单 1 单。"
+  ]
+}
